@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cantonese Reader — Story Practice</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <a href="#" id="back-link" class="muted">&larr; Back to lesson</a>
+    <h1 id="story-title" style="margin-bottom:2px;"></h1>
+    <p class="muted" id="story-desc"></p>
+    <p class="muted" style="font-size:0.85rem;">
+      A short story using every word from this lesson. No jyutping or English shown — read it
+      yourself, then tap 🔊 to check a sentence, or play the whole thing.
+    </p>
+
+    <div class="tabs" id="story-tabs"></div>
+
+    <div class="btn-row" style="margin:10px 0;">
+      <button class="btn" id="play-all-btn">🔊 Play whole story</button>
+      <button class="btn ghost" id="stop-btn">⏹ Stop</button>
+    </div>
+
+    <div id="story-list"></div>
+  </div>
+
+  <script type="module" src="js/lesson-story.js"></script>
+</body>
+</html>

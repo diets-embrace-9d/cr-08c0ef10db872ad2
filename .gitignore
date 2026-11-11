@@ -1,0 +1,6 @@
+# Local server files written by start.sh
+server.pid
+server.log
+# Temporary audio diagnostic page
+audio-test.html
+.DS_Store

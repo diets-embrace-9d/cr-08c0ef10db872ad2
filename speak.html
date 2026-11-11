@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cantonese Reader — Text to Speech</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>Text to Speech</h1>
+    <p class="muted">Type or paste Cantonese text below. Tap any word to hear it, or play the whole thing. Hover a word for its pronunciation and meaning.</p>
+
+    <textarea id="tts-input" rows="4" placeholder="貼上或者打廣東話喺呢度…"></textarea>
+
+    <div class="btn-row" style="margin:10px 0;">
+      <button class="btn" id="speak-all-btn">🔊 Speak all</button>
+      <button class="btn secondary" id="pause-btn">⏸ Pause</button>
+      <button class="btn ghost" id="stop-btn">⏹ Stop</button>
+      <button class="btn ghost" id="clear-btn">Clear</button>
+    </div>
+
+    <label style="display:block; margin:10px 0; font-size:0.9rem; max-width:340px;">
+      Speed: <span id="rate-value">0.85x</span>
+      <input type="range" id="rate-slider" min="0.1" max="1.5" step="0.05" value="0.85" style="width:100%; margin-top:4px;" />
+    </label>
+
+    <div class="card" id="tts-output" style="display:none;">
+      <div class="tts-text" id="tts-text"></div>
+      <div class="muted" id="tts-word-info"></div>
+    </div>
+
+    <div class="tts-tooltip" id="tts-tooltip"></div>
+
+    <p class="muted" style="margin-top:24px; font-size:0.8rem;">
+      Word data beyond the core lessons comes from
+      <a href="https://cantonese.org" target="_blank" rel="noopener">CC-Canto</a>
+      (© 2015-17 Pleco Inc., CC BY-SA 3.0),
+      <a href="https://cc-cedict.org" target="_blank" rel="noopener">CC-CEDICT</a>
+      (CC BY-SA 4.0), and
+      <a href="https://github.com/rime/rime-cantonese" target="_blank" rel="noopener">rime-cantonese</a>
+      (CC BY 4.0).
+    </p>
+  </div>
+
+  <script type="module" src="js/speak.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cantonese Reader — Vocab</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>Vocabulary</h1>
+    <input type="text" id="search" placeholder="Search Chinese, jyutping, or English…" />
+    <div class="tabs" id="tier-tabs">
+      <button data-tier="200" class="active">Top 200</button>
+      <button data-tier="500">201–500</button>
+      <button data-tier="1000">501–1000</button>
+      <button data-tier="all">All</button>
+      <button data-tier="restaurant">🍜 Restaurant (HK)</button>
+    </div>
+    <p class="muted" id="restaurant-note" style="display:none;">
+      Bonus pack — not in your review queue yet. Turn it on in Settings once the core 1000 feel solid.
+    </p>
+    <div class="card" id="vocab-list" style="padding:4px 16px;"></div>
+  </div>
+
+  <script type="module" src="js/vocab.js"></script>
+</body>
+</html>

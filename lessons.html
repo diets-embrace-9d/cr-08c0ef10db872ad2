@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cantonese Reader — Lessons</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>Lessons</h1>
+    <p class="muted">Structured courses, ~10 new words at a time. Pick a course to see its lessons.</p>
+
+    <div id="course-list"></div>
+
+    <div id="course-detail" style="display:none;">
+      <a href="#" id="back-to-courses" class="muted">&larr; All courses</a>
+      <h2 id="course-title" style="margin-bottom:2px;"></h2>
+      <div class="progress-bar"><div id="course-progress-bar" style="width:0%"></div></div>
+      <p class="muted" id="course-progress-text"></p>
+      <div id="lesson-list"></div>
+    </div>
+  </div>
+
+  <script type="module" src="js/lessons.js"></script>
+</body>
+</html>

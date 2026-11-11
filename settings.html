@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cantonese Reader — Settings</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>Settings</h1>
+
+    <div class="card">
+      <h2 style="margin-top:0">Voice</h2>
+      <p class="muted" id="voice-status"></p>
+      <select id="voice-select"></select>
+      <div class="btn-row" style="margin-top:10px;">
+        <button class="btn secondary" id="test-voice">Test audio</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">Vocabulary tiers</h2>
+      <label style="display:flex; align-items:center; gap:8px;">
+        <input type="checkbox" id="tier-override" />
+        Show all words (up to 1000) regardless of tier mastery
+      </label>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">Bonus packs</h2>
+      <label style="display:flex; align-items:center; gap:8px;">
+        <input type="checkbox" id="restaurant-pack-toggle" />
+        Include the 🍜 HK Restaurant pack in flashcard review
+      </label>
+      <p class="muted" style="margin-top:8px;">
+        Menu items, dishes, and ordering phrases. Off by default so you can focus on the core 1000 words first — browse the pack anytime under Vocab.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">Reset</h2>
+      <p class="muted">Clears all flashcard progress, word status, and streak history.</p>
+      <button class="btn ghost" id="reset-btn">Reset all progress</button>
+    </div>
+  </div>
+
+  <script type="module" src="js/settings.js"></script>
+</body>
+</html>

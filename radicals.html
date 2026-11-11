@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cantonese Reader — Radicals</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>Radicals</h1>
+    <p class="muted">
+      Radicals (部首) are the building-block components of Chinese characters — most hint at meaning.
+      Sorted from most to least common. Hover a radical for how it decodes meaning; click it (or any
+      example word) to hear it spoken.
+    </p>
+
+    <input type="text" id="radical-search" placeholder="Search by radical, jyutping, or meaning…" />
+
+    <div class="tabs" id="radical-mode-tabs">
+      <button data-mode="curated" class="active">Curated examples</button>
+      <button data-mode="vocab">My vocabulary, by radical</button>
+    </div>
+
+    <div class="card" id="radical-list" style="padding:4px 16px; margin-top:12px;"></div>
+
+    <div class="tts-tooltip" id="radical-tooltip"></div>
+  </div>
+
+  <script type="module" src="js/radicals.js"></script>
+</body>
+</html>

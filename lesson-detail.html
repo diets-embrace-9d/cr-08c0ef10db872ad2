@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cantonese Reader — Lesson</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <a href="lessons.html" id="back-link" class="muted">&larr; Back to course</a>
+    <h1 id="lesson-title" style="margin-bottom:2px;"></h1>
+    <p class="muted" id="lesson-desc"></p>
+
+    <div class="card" style="text-align:center;">
+      <h2 style="margin-top:0;">Practice this lesson</h2>
+      <div class="btn-row" style="justify-content:center;">
+        <a class="btn secondary" id="game-link" href="#">🎮 Matching game</a>
+        <a class="btn secondary" id="test-link" href="#">📝 Take the test</a>
+        <a class="btn secondary" id="reading-link" href="#">📖 Practice by reading</a>
+        <a class="btn secondary" id="story-link" href="#" style="display:none;">📚 Story practice</a>
+        <a class="btn secondary" id="immersion-link" href="#">🎧 Immersion mode</a>
+      </div>
+      <p class="muted" style="margin:10px 0 0; font-size:0.85rem;">
+        Missed words on the test show up sooner in Review.
+      </p>
+    </div>
+
+    <div class="card" style="text-align:center;">
+      <label style="display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer;">
+        <input type="checkbox" id="complete-checkbox" />
+        Mark this lesson complete
+      </label>
+    </div>
+
+    <div class="lesson-nav-row">
+      <a class="btn ghost" id="prev-lesson">&larr; Previous</a>
+      <a class="btn" id="next-lesson">Next &rarr;</a>
+    </div>
+
+    <div id="word-list"></div>
+  </div>
+
+  <script type="module" src="js/lesson-detail.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cantonese Reader — Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>廣東話 Cantonese Reader</h1>
+    <p class="muted">Jyutping, vocabulary, and reading practice for Traditional Chinese readers learning Cantonese.</p>
+
+    <div class="grid-2">
+      <div class="card stat">
+        <div class="num" id="due-count">–</div>
+        <div class="label">cards due today</div>
+      </div>
+      <div class="card stat">
+        <div class="num" id="streak-count">–</div>
+        <div class="label">day streak</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">Tier progress</h2>
+      <div id="tier-progress-text" class="muted"></div>
+      <div class="progress-bar"><div id="tier-progress-bar" style="width:0%"></div></div>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">Quick links</h2>
+      <div class="btn-row">
+        <a class="btn" href="review.html">Start review</a>
+        <a class="btn secondary" href="reading.html">Reading practice</a>
+        <a class="btn ghost" href="vocab.html">Browse vocab</a>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

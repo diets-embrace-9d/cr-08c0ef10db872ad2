@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cantonese Reader — Confusing</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>Confusing Characters</h1>
+    <p class="muted">Characters from your vocabulary that look alike but are different words. Grouped by what to look at to tell them apart. Open a group, then tap any character or word to hear it.</p>
+
+    <input type="text" id="cf-search" placeholder="Search by character, jyutping, or meaning…" />
+    <div class="tabs" id="cf-tabs"></div>
+    <p class="muted" id="cf-count" style="font-size:0.8rem; margin:10px 0;"></p>
+    <div id="cf-list"></div>
+  </div>
+
+  <script type="module" src="js/confusing.js"></script>
+</body>
+</html>

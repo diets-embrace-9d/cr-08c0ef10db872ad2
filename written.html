@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cantonese Reader — Spoken vs Written</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>Spoken vs Written</h1>
+    <p class="muted">
+      Hong Kong speaks Cantonese but writes Standard Written Chinese (書面語), which follows Mandarin
+      word choice and grammar. Signs, menus, newspapers, notices and subtitles are nearly all written
+      that way — so the word on the page is often <em>not</em> the word you'd say out loud.
+    </p>
+
+    <div class="card" style="padding:14px 16px;">
+      <strong>The key thing to know:</strong>
+      <p class="muted" style="margin:6px 0 0;">
+        Written Chinese in Hong Kong is still <em>read aloud in Cantonese</em>. A newsreader seeing 是
+        says <span class="jyutping">si6</span> — never the Mandarin <em>shì</em> — even though in
+        conversation the same person would say 係 <span class="jyutping">hai6</span>. Every form and
+        example sentence here is playable, so you can hear both the way a Hongkonger would say them.
+      </p>
+    </div>
+
+    <input type="text" id="ws-search" placeholder="Search all sections — Chinese, jyutping, or English…" />
+    <div id="ws-search-results"></div>
+
+    <div id="ws-sections"></div>
+  </div>
+
+  <script type="module" src="js/written.js"></script>
+</body>
+</html>

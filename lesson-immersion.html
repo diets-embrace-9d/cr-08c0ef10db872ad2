@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cantonese Reader — Immersion Mode</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <a href="#" id="back-link" class="muted">&larr; Back to lesson</a>
+    <h1 id="immersion-title" style="margin-bottom:2px;"></h1>
+    <p class="muted" id="immersion-desc"></p>
+
+    <div class="card" style="padding:12px 16px;">
+      <label style="display:flex; align-items:center; gap:8px; font-size:0.9rem; cursor:pointer;">
+        <input type="checkbox" id="autoplay-toggle" checked />
+        Automatically continue to the next word
+      </label>
+      <label style="display:flex; align-items:center; gap:8px; margin-top:8px; font-size:0.9rem; cursor:pointer;">
+        <input type="checkbox" id="shadow-toggle" />
+        🗣️ Shadowing — pause after each sentence so you can repeat it aloud
+      </label>
+      <label style="display:flex; align-items:center; gap:8px; margin-top:8px; font-size:0.9rem; cursor:pointer;">
+        <input type="checkbox" id="extra-practice-toggle" checked />
+        🔁 Extra repeats for words you've gotten wrong recently
+      </label>
+      <label style="display:flex; align-items:center; gap:8px; margin-top:8px; font-size:0.9rem; cursor:pointer;">
+        <input type="checkbox" id="shuffle-toggle" />
+        🔀 Shuffle word order
+      </label>
+      <label style="display:flex; align-items:center; gap:8px; margin-top:8px; font-size:0.9rem; cursor:pointer;">
+        <input type="checkbox" id="ambient-toggle" />
+        🎙️ Ambient mode — loop the whole lesson continuously, hands-off
+      </label>
+      <label style="display:block; margin-top:10px; font-size:0.9rem;">
+        🔁 Repeat lesson:
+        <select id="loop-select" style="margin-left:4px;">
+          <option value="1">1x (no repeat)</option>
+          <option value="2">2x</option>
+          <option value="3">3x</option>
+          <option value="5">5x</option>
+          <option value="10">10x</option>
+        </select>
+      </label>
+      <label style="display:block; margin-top:10px; font-size:0.9rem;">
+        Speed: <span id="rate-value">0.85x</span>
+        <input type="range" id="rate-slider" min="0.1" max="1.5" step="0.05" value="0.85" style="width:100%; margin-top:4px;" />
+      </label>
+      <label style="display:block; margin-top:10px; font-size:0.9rem;">
+        Pause before next word: <span id="pause-value">0.9s</span>
+        <input type="range" id="pause-slider" min="0.2" max="10" step="0.1" value="0.9" style="width:100%; margin-top:4px;" />
+      </label>
+      <label style="display:block; margin-top:10px; font-size:0.9rem;">
+        Pause before speaking (think time): <span id="prespeak-value">1.0s</span>
+        <input type="range" id="prespeak-slider" min="0" max="5" step="0.1" value="1.0" style="width:100%; margin-top:4px;" />
+      </label>
+      <label style="display:block; margin-top:10px; font-size:0.9rem;">
+        Chinese text size: <span id="font-value">2.6rem</span>
+        <input type="range" id="font-slider" min="1.8" max="8" step="0.1" value="2.6" style="width:100%; margin-top:4px;" />
+      </label>
+    </div>
+
+    <p class="test-progress" id="immersion-progress"></p>
+
+    <div id="immersion-area"></div>
+
+    <div class="btn-row" style="justify-content:center; margin-top:14px;">
+      <button class="btn ghost" id="prev-btn">← Previous</button>
+      <button class="btn secondary" id="pause-btn">⏸ Pause</button>
+      <button class="btn secondary" id="replay-btn">🔁 Replay</button>
+      <button class="btn" id="next-btn">Next →</button>
+    </div>
+  </div>
+
+  <script type="module" src="js/lesson-immersion.js"></script>
+</body>
+</html>

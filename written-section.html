@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cantonese Reader — Spoken vs Written</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <a href="written.html" class="muted">&larr; All sections</a>
+    <h1 id="ws-title" style="margin-bottom:2px;"></h1>
+    <p class="muted" id="ws-blurb"></p>
+
+    <input type="text" id="ws-search" placeholder="Search within this section…" />
+
+    <label class="ws-toggle">
+      <input type="checkbox" id="ws-hide-jyutping" />
+      Hide jyutping (test yourself)
+    </label>
+
+    <p class="muted" id="ws-count" style="font-size:0.8rem; margin:10px 0 0;"></p>
+
+    <div id="ws-list"></div>
+
+    <div class="lesson-nav-row" id="ws-nav"></div>
+  </div>
+
+  <script type="module" src="js/written-section.js"></script>
+</body>
+</html>

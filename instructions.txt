@@ -1,0 +1,138 @@
+CANTONESE READER — HOW TO RUN IT
+================================
+
+This is a plain HTML/CSS/JavaScript site. There is nothing to install and
+nothing to build. It just needs a small local web server running so the
+browser will load the lesson data files.
+
+
+QUICK START
+-----------
+
+1. Open Terminal.
+
+2. Go to the project folder (the quotes matter — the path has spaces):
+
+       cd "/Users/andrewng/Documents/Project Bagel/cantonese-reader"
+
+3. Start it:
+
+       ./start.sh
+
+   You should see:
+
+       Started (PID 21520).
+       Open: http://localhost:5173
+       Logs: server.log     Stop with: ./stop.sh
+
+4. Open http://localhost:5173 in your browser.
+
+When you're finished:
+
+       ./stop.sh
+
+You can close the Terminal window while it's running — the server keeps
+going. It only stops when you run ./stop.sh or restart your Mac.
+
+
+THE PAGES
+---------
+
+    http://localhost:5173/                     Dashboard
+    http://localhost:5173/lessons.html         Courses and lessons
+    http://localhost:5173/review.html          Flashcard review (SRS)
+    http://localhost:5173/vocab.html           Browse all vocabulary
+    http://localhost:5173/reading.html         Reading practice
+    http://localhost:5173/lists.html           Your saved word lists
+    http://localhost:5173/speak.html           Text to speech
+    http://localhost:5173/written.html         Spoken vs Written Chinese
+    http://localhost:5173/radicals.html        Radicals reference
+    http://localhost:5173/confusing.html       Look-alike characters
+    http://localhost:5173/settings.html        Voice choice, progress reset
+
+
+USING A DIFFERENT PORT
+----------------------
+
+If port 5173 is taken by something else, pass a different number to BOTH
+scripts:
+
+       ./start.sh 8080
+       ./stop.sh 8080
+
+Then use http://localhost:8080 in the browser.
+
+
+TROUBLESHOOTING
+---------------
+
+"The page won't load / the site disappeared"
+
+    The server isn't running. Run ./start.sh again. To check without
+    guessing:
+
+       curl -o /dev/null -w "%{http_code}\n" http://localhost:5173/
+
+    200 means it's up. 000 means it isn't.
+
+"Port 5173 is already in use by PID ... (not started by this script)"
+
+    Something else grabbed the port. Either stop that program, or just use
+    another port:  ./start.sh 8080
+
+"./start.sh: Permission denied"
+
+    The scripts lost their executable flag. Restore it:
+
+       chmod +x start.sh stop.sh
+
+"Server failed to start"
+
+    start.sh will print the end of the log for you. The full log is in
+    server.log in this folder.
+
+"I edited a file but the browser shows the old version"
+
+    Just refresh. The server sends no-cache headers specifically so you
+    don't have to force-reload. If it still looks stale, the edit probably
+    didn't save.
+
+"No audio / nothing is spoken"
+
+    The site uses your Mac's built-in text-to-speech and needs a Cantonese
+    voice installed. Go to System Settings > Accessibility > Spoken Content
+    > System Voice > Manage Voices, and add a Chinese (Hong Kong) voice.
+    Then pick it on the site's Settings page. Your browser also has to be
+    allowed to play audio on the page.
+
+"My progress vanished"
+
+    Progress (review scheduling, completed lessons, saved lists, settings)
+    lives in your browser's localStorage for this site. It is per-browser
+    and per-profile — a different browser, or a private/incognito window,
+    starts empty. Clearing site data for localhost erases it.
+
+
+FILES THE SCRIPTS CREATE
+------------------------
+
+    server.pid    The running server's process ID. start.sh writes it,
+                  stop.sh reads and removes it. Safe to delete when the
+                  server isn't running.
+
+    server.log    Server output. Handy if something won't start. Safe to
+                  delete any time.
+
+
+WHY THE SCRIPTS EXIST
+---------------------
+
+serve.py is the actual server, and you can still run it directly with
+"python3 serve.py" if you want to watch its output in the terminal — but
+started that way it dies the moment that terminal closes.
+
+start.sh runs it detached (via nohup) and records the process ID, so it
+survives closing the terminal, refuses to start a second copy on top of
+itself, and confirms it really came up instead of just claiming success.
+stop.sh shuts it down cleanly, and falls back to freeing the port if the
+PID file is missing or stale.

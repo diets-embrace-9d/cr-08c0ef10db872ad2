@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cantonese Reader — Review</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>Review</h1>
+
+    <div class="card" style="padding:12px 16px;">
+      <label for="scope-select" style="display:block; font-size:0.85rem; color:var(--muted); margin-bottom:6px;">
+        Reviewing
+      </label>
+      <select id="scope-select">
+        <option value="auto">Due words (auto)</option>
+        <option value="wrong">❌ Words I got wrong (last 7 days)</option>
+        <option value="completed">Only completed lessons</option>
+        <option value="top200">Top 200</option>
+        <option value="top500">Top 500</option>
+        <option value="top1000">Top 1000</option>
+        <option value="restaurant">🍜 Restaurant</option>
+      </select>
+      <label style="display:flex; align-items:center; gap:8px; margin-top:10px; font-size:0.9rem; cursor:pointer;">
+        <input type="checkbox" id="force-review-toggle" />
+        Force review — show every word in this scope now, even if not due yet
+      </label>
+      <label style="display:flex; align-items:center; gap:8px; margin-top:8px; font-size:0.9rem; cursor:pointer;">
+        <input type="checkbox" id="test-mode-toggle" />
+        📝 Test mode — multiple choice instead of flip cards, with hard distractors
+      </label>
+      <label style="display:flex; align-items:center; gap:8px; margin-top:8px; font-size:0.9rem; cursor:pointer;">
+        <input type="checkbox" id="auto-advance-toggle" />
+        Auto-advance when I answer correctly (test mode)
+      </label>
+    </div>
+
+    <p class="muted" id="queue-status"></p>
+
+    <div id="review-area"></div>
+  </div>
+
+  <script type="module" src="js/review.js"></script>
+</body>
+</html>
