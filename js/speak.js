@@ -1,5 +1,5 @@
-import { renderNav } from "./nav.js";
-import { getSettings, saveSettings } from "./storage.js";
+import { renderNav, toast } from "./nav.js";
+import { getSettings, saveSettings, getSavedTexts, isTextSaved, addSavedText, removeSavedText } from "./storage.js";
 import { speakHighlighted, stopSpeaking, pauseSpeaking, resumeSpeaking } from "./speech.js";
 import { lookupWord, breakdownChars, segmentText, sourceLabel } from "./dictionary.js";
 
@@ -17,6 +17,9 @@ const outputCard = document.getElementById("tts-output");
 const textEl = document.getElementById("tts-text");
 const wordInfoEl = document.getElementById("tts-word-info");
 const tooltipEl = document.getElementById("tts-tooltip");
+const saveTextBtn = document.getElementById("save-text-btn");
+const savedListEl = document.getElementById("saved-list");
+const savedCountEl = document.getElementById("saved-count");
 
 let rate = settings.speakRate;
 let paused = false;
@@ -107,17 +110,60 @@ function clearHighlight() {
   if (prev) prev.classList.remove("speaking");
 }
 
-inputEl.addEventListener("input", () => renderText(inputEl.value));
+// The save option belongs to the text that was just spoken, so it hides
+// again as soon as the text is edited.
+function showSaveButton() {
+  const text = currentText.trim();
+  const saved = isTextSaved(text);
+  saveTextBtn.hidden = false;
+  saveTextBtn.disabled = saved;
+  saveTextBtn.textContent = saved ? "✓ Saved" : "☆ Save to list";
+}
 
-clearBtn.addEventListener("click", () => {
+// Shown in the viewer's own locale and time zone, e.g. "Nov 11, 2026, 9:45 AM".
+function formatSavedAt(savedAt) {
+  if (!savedAt) return "";
+  // Older entries only stored a date; show it as-is rather than letting
+  // UTC parsing shift it to the previous day.
+  if (/^\d{4}-\d{2}-\d{2}$/.test(savedAt)) {
+    const [y, m, d] = savedAt.split("-").map(Number);
+    return new Date(y, m - 1, d).toLocaleDateString(undefined, { dateStyle: "medium" });
+  }
+  const date = new Date(savedAt);
+  return Number.isNaN(date.getTime()) ? "" : date.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
+}
+
+function renderSavedTexts() {
+  const items = getSavedTexts();
+  savedCountEl.textContent = items.length ? String(items.length) : "";
+  savedListEl.innerHTML = items.length
+    ? items
+        .map(
+          (t) => `
+      <div class="card saved-text" data-id="${t.id}">
+        <div class="saved-text-main">
+          <button type="button" class="saved-text-body" title="Load into the box">${escapeHtml(t.text)}</button>
+          <div class="saved-text-date muted">Added ${escapeHtml(formatSavedAt(t.savedAt))}</div>
+        </div>
+        <div class="saved-text-actions">
+          <button type="button" class="icon-btn saved-play" title="Play">🔊</button>
+          <button type="button" class="icon-btn saved-delete" title="Remove from list">✕</button>
+        </div>
+      </div>`
+        )
+        .join("")
+    : `<div class="empty-state">Nothing saved yet. Press Speak all, then Save to list.</div>`;
+}
+
+function loadText(text) {
   unpause();
   stopSpeaking();
-  inputEl.value = "";
-  renderText("");
-  inputEl.focus();
-});
+  inputEl.value = text;
+  renderText(text);
+  inputEl.scrollIntoView({ behavior: "smooth", block: "center" });
+}
 
-speakAllBtn.addEventListener("click", () => {
+function speakCurrent() {
   if (!currentText.trim()) return;
   unpause();
   speakHighlighted(currentText, settings.voiceURI, {
@@ -125,7 +171,48 @@ speakAllBtn.addEventListener("click", () => {
     onChar: highlightGlobalIndex,
     onDone: clearHighlight,
   });
+  showSaveButton();
+}
+
+saveTextBtn.addEventListener("click", () => {
+  const text = currentText.trim();
+  if (!text) return;
+  addSavedText(text);
+  showSaveButton();
+  renderSavedTexts();
+  toast("Saved to list");
 });
+
+savedListEl.addEventListener("click", (e) => {
+  const row = e.target.closest(".saved-text");
+  if (!row) return;
+  const item = getSavedTexts().find((t) => t.id === row.dataset.id);
+  if (!item) return;
+  if (e.target.closest(".saved-delete")) {
+    removeSavedText(item.id);
+    renderSavedTexts();
+    if (item.text === currentText.trim()) showSaveButton();
+    return;
+  }
+  loadText(item.text);
+  if (e.target.closest(".saved-play")) speakCurrent();
+});
+
+inputEl.addEventListener("input", () => {
+  saveTextBtn.hidden = true;
+  renderText(inputEl.value);
+});
+
+clearBtn.addEventListener("click", () => {
+  unpause();
+  stopSpeaking();
+  saveTextBtn.hidden = true;
+  inputEl.value = "";
+  renderText("");
+  inputEl.focus();
+});
+
+speakAllBtn.addEventListener("click", speakCurrent);
 
 stopBtn.addEventListener("click", () => {
   unpause();
@@ -201,3 +288,5 @@ textEl.addEventListener("mouseout", (e) => {
   if (btn.contains(e.relatedTarget)) return;
   tooltipEl.classList.remove("show");
 });
+
+renderSavedTexts();

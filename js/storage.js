@@ -9,6 +9,7 @@ const KEYS = {
   completedLessons: "cantonese.completedLessons.v1",
   wrongLog: "cantonese.wrongLog.v1",
   wordLists: "cantonese.wordLists.v1",
+  savedTexts: "cantonese.savedTexts.v1",
 };
 
 function read(key, fallback) {
@@ -152,6 +153,29 @@ export function getWrongIdsSince(days) {
 // while reading (including untracked particles/filler), not just ones the
 // app happens to track for SRS review. A word can belong to any number of
 // lists.
+// --- Saved texts on the Text to Speech page ---
+// [{ id, text, savedAt }], newest first. savedAt is a full ISO timestamp
+// (entries saved before times were recorded hold just YYYY-MM-DD).
+export function getSavedTexts() {
+  return read(KEYS.savedTexts, []);
+}
+
+export function isTextSaved(text) {
+  return getSavedTexts().some((t) => t.text === text);
+}
+
+// Saving text that's already in the list moves it back to the top.
+export function addSavedText(text) {
+  const rest = getSavedTexts().filter((t) => t.text !== text);
+  const item = { id: `text_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`, text, savedAt: new Date().toISOString() };
+  write(KEYS.savedTexts, [item, ...rest]);
+  return item;
+}
+
+export function removeSavedText(id) {
+  write(KEYS.savedTexts, getSavedTexts().filter((t) => t.id !== id));
+}
+
 export function getWordLists() {
   const lists = read(KEYS.wordLists, {});
   let migrated = false;

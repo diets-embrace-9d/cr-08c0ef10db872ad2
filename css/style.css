@@ -1182,3 +1182,39 @@ textarea {
   color: var(--muted);
   font-size: 0.95rem;
 }
+
+/* Saved texts on the Text to Speech page */
+.saved-texts { margin-top: 28px; }
+.saved-texts-count {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.saved-text {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+}
+.saved-text-main { flex: 1; min-width: 0; }
+.saved-text-date { margin-top: 2px; font-size: 0.78rem; }
+.saved-text-body {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  text-align: left;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+.saved-text-body:hover { color: var(--accent); }
+.saved-text-actions { display: flex; gap: 6px; flex-shrink: 0; }

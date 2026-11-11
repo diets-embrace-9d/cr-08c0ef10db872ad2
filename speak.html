@@ -19,6 +19,7 @@
       <button class="btn secondary" id="pause-btn">⏸ Pause</button>
       <button class="btn ghost" id="stop-btn">⏹ Stop</button>
       <button class="btn ghost" id="clear-btn">Clear</button>
+      <button class="btn secondary" id="save-text-btn" hidden>☆ Save to list</button>
     </div>
 
     <label style="display:block; margin:10px 0; font-size:0.9rem; max-width:340px;">
@@ -32,6 +33,11 @@
     </div>
 
     <div class="tts-tooltip" id="tts-tooltip"></div>
+
+    <section class="saved-texts">
+      <h2>Saved texts <span class="saved-texts-count" id="saved-count"></span></h2>
+      <div id="saved-list"></div>
+    </section>
 
     <p class="muted" style="margin-top:24px; font-size:0.8rem;">
       Word data beyond the core lessons comes from
