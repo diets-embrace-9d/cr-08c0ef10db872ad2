@@ -1,7 +1,15 @@
 import { renderNav, toast } from "./nav.js";
 import { getSettings, saveSettings, getSavedTexts, isTextSaved, addSavedText, removeSavedText } from "./storage.js";
 import { speakHighlighted, stopSpeaking, pauseSpeaking, resumeSpeaking } from "./speech.js";
-import { lookupWord, breakdownChars, segmentText, sourceLabel } from "./dictionary.js";
+import {
+  lookupWord,
+  lookupAlternatives,
+  lookupCharDefinition,
+  isGlossCovered,
+  breakdownChars,
+  segmentText,
+  sourceLabel,
+} from "./dictionary.js";
 
 renderNav("speak.html");
 
@@ -72,6 +80,39 @@ function breakdownHtmlFull(parts) {
         `<button type="button" class="breakdown-char" data-ch="${p.ch}"><b>${p.ch}</b> ${p.info.jyutping} — ${p.info.english}</button>`
     )
     .join("");
+}
+
+function altItemHtml(entry, primaryJyutping) {
+  const reading =
+    entry.jyutping !== primaryJyutping
+      ? `<span class="alt-reading" title="Different pronunciation">${escapeHtml(entry.jyutping)}</span>`
+      : `<span class="alt-jyutping">${escapeHtml(entry.jyutping)}</span>`;
+  return `<li>${reading} ${escapeHtml(entry.english)} <span class="tt-tag">${escapeHtml(sourceLabel(entry))}</span></li>`;
+}
+
+// Supplementary meanings, kept separate from the main translation: other
+// senses or readings of the whole word, then of each character in it.
+// Unihan's definition, unless it only repeats glosses already shown.
+function unihanItemHtml(ch, shownGlosses) {
+  const def = lookupCharDefinition(ch);
+  if (!def || isGlossCovered(def, shownGlosses)) return "";
+  return `<li>${escapeHtml(def)} <span class="tt-tag">Unihan</span></li>`;
+}
+
+function altGroupHtml(text, primary) {
+  const alts = lookupAlternatives(text);
+  const shown = [primary.english, ...alts.map((a) => a.english)];
+  const items = alts.map((a) => altItemHtml(a, primary.jyutping)).join("") + ([...text].length === 1 ? unihanItemHtml(text, shown) : "");
+  return items ? `<div class="alt-group"><b>${escapeHtml(text)}</b><ul>${items}</ul></div>` : "";
+}
+
+function alternativesHtml(wordText, primary, parts) {
+  const groups = [altGroupHtml(wordText, primary), ...parts.map((p) => altGroupHtml(p.ch, p.info))].filter(Boolean);
+  if (!groups.length) return "";
+  const count = groups.length;
+  return `<details class="alt-meanings"><summary>Other meanings and readings (${count} ${
+    count === 1 ? "entry" : "entries"
+  })</summary>${groups.join("")}</details>`;
 }
 
 let currentText = "";
@@ -233,7 +274,11 @@ textEl.addEventListener("click", (e) => {
     const breakdownHtml = parts.length
       ? `<div class="breakdown">${breakdownHtmlFull(parts)}</div>`
       : "";
-    wordInfoEl.innerHTML = `<span style="color:var(--accent); font-weight:600;">${known.jyutping}</span> — ${known.english}${breakdownHtml}`;
+    wordInfoEl.innerHTML = `<span style="color:var(--accent); font-weight:600;">${known.jyutping}</span> — ${known.english}${breakdownHtml}${alternativesHtml(
+      wordText,
+      known,
+      parts
+    )}`;
   } else {
     wordInfoEl.innerHTML = "";
   }

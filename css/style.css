@@ -1218,3 +1218,35 @@ textarea {
 }
 .saved-text-body:hover { color: var(--accent); }
 .saved-text-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+/* Supplementary meanings on the Text to Speech page */
+.alt-meanings {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  color: var(--text);
+}
+.alt-meanings summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.alt-meanings summary:hover { color: var(--accent); }
+.alt-group { margin-top: 8px; font-size: 0.9rem; }
+.alt-group b { font-size: 1.05rem; }
+.alt-group ul { margin: 4px 0 0; padding-left: 20px; }
+.alt-group li { margin: 3px 0; line-height: 1.45; }
+.alt-jyutping { color: var(--muted); }
+.alt-reading {
+  color: var(--accent);
+  font-weight: 600;
+}
+.alt-group .tt-tag {
+  margin-left: 4px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.7rem;
+  white-space: nowrap;
+}

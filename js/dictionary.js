@@ -9,13 +9,23 @@ import { VOCAB } from "../data/vocab.js";
 import { RESTAURANT_VOCAB } from "../data/restaurant.js";
 import { CANTO_DICT } from "../data/canto-dict.js";
 import { CEDICT_CANTO } from "../data/cedict-canto.js";
+import { CHAR_MEANINGS } from "../data/char-meanings.js";
+import { UNIHAN_DEFS } from "../data/unihan-defs.js";
 
 const LOOKUP = new Map();
+// Every distinct entry per word, in the same priority order as LOOKUP. The
+// first one is the primary meaning; the rest are offered as alternatives
+// (other readings, or senses the primary gloss leaves out).
+const ALL_ENTRIES = new Map();
 let maxWordLen = 1;
 
 function addEntry(traditional, jyutping, english, source, id = null) {
-  if (!traditional || LOOKUP.has(traditional)) return;
-  LOOKUP.set(traditional, { jyutping, english, source, id });
+  if (!traditional) return;
+  const entry = { jyutping, english, source, id };
+  if (!ALL_ENTRIES.has(traditional)) ALL_ENTRIES.set(traditional, []);
+  ALL_ENTRIES.get(traditional).push(entry);
+  if (LOOKUP.has(traditional)) return;
+  LOOKUP.set(traditional, entry);
   maxWordLen = Math.max(maxWordLen, [...traditional].length);
 }
 
@@ -32,13 +42,20 @@ function curatedSource(w) {
 // text, not just on a curated vocab list page.
 for (const w of VOCAB) addEntry(w.traditional, w.jyutping, w.english, curatedSource(w), w.id);
 for (const w of RESTAURANT_VOCAB) addEntry(w.traditional, w.jyutping, w.english, "restaurant", w.id);
+// Hand-checked character meanings rank right after lesson vocab, and the
+// dictionaries' own standalone entries for those characters are skipped.
+for (const [traditional, entries] of Object.entries(CHAR_MEANINGS)) {
+  for (const [jyutping, english] of entries) addEntry(traditional, jyutping, english, "curated");
+}
 for (const [traditional, jyutping, english] of CANTO_DICT) {
+  if (CHAR_MEANINGS[traditional]) continue;
   addEntry(traditional, jyutping, english, "dictionary");
 }
 // CC-Canto only documents Cantonese-specific vocabulary, so common compound
 // words (香港, 朋友, 工作...) are missing from it entirely. This layer fills
 // those gaps: CC-CEDICT glosses matched with real word-level jyutping.
 for (const [traditional, jyutping, english] of CEDICT_CANTO) {
+  if (CHAR_MEANINGS[traditional]) continue;
   addEntry(traditional, jyutping, english, "dictionary");
 }
 
@@ -61,6 +78,7 @@ export const SOURCE_LABELS = {
   top500: "201–500",
   top1000: "501–1000",
   restaurant: "🍜 Restaurant",
+  curated: "Checked",
   dictionary: "Dictionary",
 };
 
@@ -74,6 +92,48 @@ export function isHan(ch) {
 
 export function lookupWord(text) {
   return LOOKUP.get(text);
+}
+
+// Comparable form of a gloss: lowercase, without "(Cantonese)"-style tags,
+// numbering, or punctuation.
+function glossKey(english) {
+  return english
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, " ")
+    .replace(/\b\d+\.\s*/g, " ")
+    .replace(/[^a-z\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// A single character's definition from Unicode's character database: a
+// second, independent source. It has no reading attached, because Unihan's
+// one listed Cantonese reading isn't always the common one.
+export function lookupCharDefinition(ch) {
+  return UNIHAN_DEFS[ch] || null;
+}
+
+// True when `english` adds nothing beyond glosses already shown.
+export function isGlossCovered(english, shownGlosses) {
+  const key = glossKey(english);
+  return !key || shownGlosses.some((g) => glossKey(g).includes(key));
+}
+
+// Other entries for `text` beyond the primary one. Skips entries that only
+// restate a meaning already shown (same reading, gloss already covered).
+export function lookupAlternatives(text) {
+  const entries = ALL_ENTRIES.get(text) || [];
+  const shown = [];
+  const result = [];
+  for (const [i, entry] of entries.entries()) {
+    const key = glossKey(entry.english);
+    const redundant = shown.some((s) => s.jyutping === entry.jyutping && (!key || s.key.includes(key)));
+    if (!redundant) {
+      if (i > 0) result.push(entry);
+      shown.push({ jyutping: entry.jyutping, key });
+    }
+  }
+  return result;
 }
 
 // For multi-character words, look up each individual character so learners
